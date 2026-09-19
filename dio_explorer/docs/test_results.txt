@@ -1,0 +1,128 @@
+﻿================================================================================
+  RELATORIO DE TESTES UNITARIOS — DIO Explorer / Slash Commands
+  Projeto : C:\Users\fabricio\.bob\projeto_final_dio_ibm_bob
+  Gerado  : 2026-09-19 12:09:39
+  Executor: pytest 9.1.1 | Python 3.11.4
+================================================================================
+
+ESCOPO DOS TESTES
+-----------------
+Arquivo de testes  : dio_explorer/src/test_slash_commands.py
+Modulo testado     : dio_explorer/src/trilhas_utils.py
+Cobertura alvo     : >= 70%
+Fonte de dados     : dio_explorer/data/trilhas_dio.json (32 trilhas)
+
+COMANDOS TESTADOS
+-----------------
+  /trilha      <tecnologia>         — consulta trilha por tecnologia
+  /desafio     <tecnologia> <nivel> — gera desafio de codigo aleatorio
+  /certificado <nome> <tecnologia>  — gera certificado ficticio
+
+================================================================================
+SAIDA COMPLETA DO PYTEST
+================================================================================
+============================= test session starts =============================
+platform win32 -- Python 3.11.4, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\fabricio\AppData\Local\Programs\Python\Python311\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\fabricio\.bob\projeto_final_dio_ibm_bob\dio_explorer
+plugins: anyio-4.9.0, cov-7.1.0
+collecting ... collected 36 items
+
+dio_explorer\src\test_slash_commands.py::TestCarregarTrilhas::test_retorna_lista PASSED [  2%]
+dio_explorer\src\test_slash_commands.py::TestCarregarTrilhas::test_numero_de_trilhas_correto PASSED [  5%]
+dio_explorer\src\test_slash_commands.py::TestCarregarTrilhas::test_arquivo_real_tem_32_trilhas PASSED [  8%]
+dio_explorer\src\test_slash_commands.py::TestBuscarTrilha::test_busca_exata_retorna_trilha PASSED [ 11%]
+dio_explorer\src\test_slash_commands.py::TestBuscarTrilha::test_busca_case_insensitive PASSED [ 13%]
+dio_explorer\src\test_slash_commands.py::TestBuscarTrilha::test_busca_parcial PASSED [ 16%]
+dio_explorer\src\test_slash_commands.py::TestBuscarTrilha::test_busca_inexistente_retorna_none PASSED [ 19%]
+dio_explorer\src\test_slash_commands.py::TestBuscarTrilha::test_busca_string_vazia_retorna_none PASSED [ 22%]
+dio_explorer\src\test_slash_commands.py::TestBuscarTrilha::test_busca_apenas_espacos_retorna_none PASSED [ 25%]
+dio_explorer\src\test_slash_commands.py::TestBuscarTrilha::test_retorna_primeiro_match PASSED [ 27%]
+dio_explorer\src\test_slash_commands.py::TestBuscarTrilha::test_busca_java_arquivo_real PASSED [ 30%]
+dio_explorer\src\test_slash_commands.py::TestFormatarPlanoEstudos::test_contem_nome_da_trilha PASSED [ 33%]
+dio_explorer\src\test_slash_commands.py::TestFormatarPlanoEstudos::test_contem_tecnologia PASSED [ 36%]
+dio_explorer\src\test_slash_commands.py::TestFormatarPlanoEstudos::test_contem_nivel PASSED [ 38%]
+dio_explorer\src\test_slash_commands.py::TestFormatarPlanoEstudos::test_contem_xp PASSED [ 41%]
+dio_explorer\src\test_slash_commands.py::TestFormatarPlanoEstudos::test_contem_badges PASSED [ 44%]
+dio_explorer\src\test_slash_commands.py::TestFormatarPlanoEstudos::test_promocao_exibida_quando_existe PASSED [ 47%]
+dio_explorer\src\test_slash_commands.py::TestFormatarPlanoEstudos::test_sem_promocao_exibe_mensagem PASSED [ 50%]
+dio_explorer\src\test_slash_commands.py::TestGerarDesafio::test_retorna_dict PASSED [ 52%]
+dio_explorer\src\test_slash_commands.py::TestGerarDesafio::test_campos_obrigatorios_presentes PASSED [ 55%]
+dio_explorer\src\test_slash_commands.py::TestGerarDesafio::test_tecnologia_preservada PASSED [ 58%]
+dio_explorer\src\test_slash_commands.py::TestGerarDesafio::test_nivel_basico_xp_range PASSED [ 61%]
+dio_explorer\src\test_slash_commands.py::TestGerarDesafio::test_nivel_intermediario_xp_range PASSED [ 63%]
+dio_explorer\src\test_slash_commands.py::TestGerarDesafio::test_nivel_avancado_xp_range PASSED [ 66%]
+dio_explorer\src\test_slash_commands.py::TestGerarDesafio::test_nivel_invalido_lanca_excecao PASSED [ 69%]
+dio_explorer\src\test_slash_commands.py::TestGerarDesafio::test_nivel_invalido_mensagem PASSED [ 72%]
+dio_explorer\src\test_slash_commands.py::TestGerarDesafio::test_desafio_java_intermediario_completo PASSED [ 75%]
+dio_explorer\src\test_slash_commands.py::TestGerarCertificado::test_retorna_string PASSED [ 77%]
+dio_explorer\src\test_slash_commands.py::TestGerarCertificado::test_contem_nome_usuario PASSED [ 80%]
+dio_explorer\src\test_slash_commands.py::TestGerarCertificado::test_contem_nome_trilha PASSED [ 83%]
+dio_explorer\src\test_slash_commands.py::TestGerarCertificado::test_contem_tecnologia PASSED [ 86%]
+dio_explorer\src\test_slash_commands.py::TestGerarCertificado::test_contem_data_emissao PASSED [ 88%]
+dio_explorer\src\test_slash_commands.py::TestGerarCertificado::test_id_formato_correto PASSED [ 91%]
+dio_explorer\src\test_slash_commands.py::TestGerarCertificado::test_contem_badges PASSED [ 94%]
+dio_explorer\src\test_slash_commands.py::TestGerarCertificado::test_usa_data_hoje_quando_nao_informada PASSED [ 97%]
+dio_explorer\src\test_slash_commands.py::TestGerarCertificado::test_fluxo_completo_trilha_java PASSED [100%]
+
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.11.4-final-0 _______________
+
+Name                                Stmts   Miss  Cover   Missing
+-----------------------------------------------------------------
+dio_explorer\src\trilhas_utils.py      48      0   100%
+-----------------------------------------------------------------
+TOTAL                                  48      0   100%
+============================= 36 passed in 0.21s ==============================
+
+================================================================================
+RESUMO EXECUTIVO
+================================================================================
+
+  Total de testes executados : 36
+  Testes aprovados (PASSED)  : 36
+  Testes reprovados (FAILED) : 0
+  Erros (ERROR)              : 0
+  Cobertura de codigo        : 100% (48/48 linhas cobertas)
+  Meta de cobertura (>= 70%) : ATINGIDA ✓
+
+DISTRIBUICAO POR SUITE
+----------------------
+  TestCarregarTrilhas      :  3 testes — carregar_trilhas()
+  TestBuscarTrilha         :  8 testes — buscar_trilha() [/trilha]
+  TestFormatarPlanoEstudos :  7 testes — formatar_plano_estudos() [/trilha]
+  TestGerarDesafio         :  9 testes — gerar_desafio() [/desafio]
+  TestGerarCertificado     :  9 testes — gerar_certificado() [/certificado]
+                            --------
+  TOTAL                    : 36 testes
+
+CENARIOS CRITICOS VALIDADOS
+-----------------------------
+  TC-03  : Arquivo real trilhas_dio.json contem exatamente 32 trilhas    [PASSED]
+  TC-05  : Busca /trilha java e case-insensitive (java/JAVA/JaVa)        [PASSED]
+  TC-11  : /trilha java no catalogo real retorna trilha com 12 modulos   [PASSED]
+  TC-22  : /desafio Basico gera XP entre 200 e 500                      [PASSED]
+  TC-23  : /desafio Intermediario gera XP entre 500 e 1000              [PASSED]
+  TC-24  : /desafio Avancado gera XP entre 1000 e 2000                  [PASSED]
+  TC-25  : Nivel invalido lanca ValueError                               [PASSED]
+  TC-33  : ID do certificado segue padrao DIO-NNN-AAAA-NNNNNN           [PASSED]
+  TC-36  : Fluxo integrado Java (/trilha + /desafio + /certificado)     [PASSED]
+
+FLUXO INTEGRADO TC-36 — Fabricio Eirim Castro / Java
+------------------------------------------------------
+  1. carregar_trilhas()          -> 32 trilhas carregadas
+  2. buscar_trilha("java")       -> "Desenvolvedor Java Full Stack" encontrada
+  3. formatar_plano_estudos()    -> plano com 12 modulos, 11500 XP gerado
+  4. gerar_desafio("Java","Intermediario") -> desafio com XP >= 500 gerado
+  5. gerar_certificado("Fabricio Eirim Castro", trilha, 10/07/2025)
+                                 -> certificado com ID DIO-002-2025-XXXXXX emitido
+
+VEREDICTO FINAL
+---------------
+  STATUS  : APROVADO
+  COBERTURA: 100% (meta era 70%)
+  TODOS OS 36 TESTES PASSARAM SEM FALHAS
+
+================================================================================
+  Fim do relatorio
+================================================================================

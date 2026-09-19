@@ -1,0 +1,734 @@
+
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DIO Explorer × IBM Bob — Documentação do Projeto</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    background: #ffffff;
+    color: #1f2328;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 760px; margin: 0 auto; }
+
+  /* Header */
+  .hero {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .hero h1 { font-size: 1.6rem; color: #1f2328; margin-bottom: .4rem; }
+  .hero .subtitle { color: #57606a; font-size: .9rem; }
+  .badge-row { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+  .badge {
+    background: #3b82d4;
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: .2rem .65rem;
+    border-radius: 20px;
+    letter-spacing: .02em;
+  }
+  .badge.purple { background: #7c5cd8; }
+  .badge.green  { background: #2da44e; }
+  .badge.gray   { background: #57606a; }
+
+  /* TOC */
+  .toc {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .toc h2 { font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; color: #57606a; margin-bottom: .6rem; }
+  .toc ol { padding-left: 1.2rem; }
+  .toc li { margin-bottom: .2rem; }
+  .toc a { color: #3b82d4; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* Sections */
+  section { margin-bottom: 2.5rem; }
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2328;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: .4rem;
+    margin-bottom: 1rem;
+    scroll-margin-top: 1rem;
+  }
+  h3 { font-size: .95rem; font-weight: 700; color: #1f2328; margin: 1.2rem 0 .5rem; }
+  h4 { font-size: .88rem; font-weight: 600; color: #57606a; margin: .8rem 0 .3rem; text-transform: uppercase; letter-spacing: .04em; }
+  p { margin-bottom: .7rem; }
+  ul, ol { padding-left: 1.4rem; margin-bottom: .7rem; }
+  li { margin-bottom: .25rem; }
+
+  /* Code */
+  code {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: .1rem .35rem;
+    font-family: "Consolas", "SF Mono", monospace;
+    font-size: .82rem;
+    color: #cf222e;
+  }
+  pre {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #1f2328;
+    font-size: .82rem;
+    line-height: 1.6;
+  }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: .84rem; }
+  th {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    padding: .45rem .7rem;
+    text-align: left;
+    font-weight: 600;
+    color: #57606a;
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  td { border: 1px solid #e5e7eb; padding: .4rem .7rem; vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfc; }
+
+  /* Callouts */
+  .callout {
+    border-left: 4px solid #3b82d4;
+    background: #f0f7ff;
+    border-radius: 0 6px 6px 0;
+    padding: .8rem 1rem;
+    margin-bottom: 1rem;
+    font-size: .88rem;
+  }
+  .callout.warning { border-color: #d4a017; background: #fef9e7; }
+  .callout.success { border-color: #2da44e; background: #f0faf3; }
+  .callout.insight { border-color: #7c5cd8; background: #f5f2ff; }
+  .callout strong { display: block; margin-bottom: .2rem; }
+
+  /* Command cards */
+  .cmd-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+  }
+  .cmd-header {
+    background: #f7f8fa;
+    border-bottom: 1px solid #e5e7eb;
+    padding: .65rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+  }
+  .cmd-name {
+    font-family: "Consolas", monospace;
+    font-size: .95rem;
+    font-weight: 700;
+    color: #3b82d4;
+  }
+  .cmd-hint {
+    font-family: "Consolas", monospace;
+    font-size: .82rem;
+    color: #57606a;
+  }
+  .cmd-body { padding: .8rem 1rem; }
+
+  /* Architecture diagram (pure CSS/HTML) */
+  .arch {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    font-family: "Consolas", monospace;
+    font-size: .8rem;
+    line-height: 1.8;
+    color: #1f2328;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  /* Stats row */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: .75rem;
+    margin-bottom: 1.2rem;
+  }
+  .stat-box {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: .8rem;
+    text-align: center;
+    background: #f7f8fa;
+  }
+  .stat-num { font-size: 1.6rem; font-weight: 700; color: #3b82d4; line-height: 1.2; }
+  .stat-num.green { color: #2da44e; }
+  .stat-num.purple { color: #7c5cd8; }
+  .stat-label { font-size: .75rem; color: #57606a; margin-top: .2rem; }
+
+  /* Prompt block */
+  .prompt-block {
+    border: 1px solid #7c5cd8;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .prompt-header {
+    background: #7c5cd8;
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    padding: .3rem .75rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .prompt-body {
+    background: #f5f2ff;
+    padding: .7rem 1rem;
+    font-size: .83rem;
+    line-height: 1.6;
+    font-style: italic;
+    color: #1f2328;
+  }
+
+  /* Insight cards */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .75rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 540px) { .insights-grid { grid-template-columns: 1fr; } }
+  .insight-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: .9rem 1rem;
+    background: #fafbfc;
+  }
+  .insight-card .icon { font-size: 1.2rem; margin-bottom: .3rem; }
+  .insight-card h4 { font-size: .82rem; text-transform: none; letter-spacing: 0; color: #1f2328; margin: 0 0 .3rem; }
+  .insight-card p { font-size: .82rem; color: #57606a; margin: 0; }
+
+  hr { border: none; border-top: 1px solid #e5e7eb; margin: 2rem 0; }
+
+  footer {
+    text-align: center;
+    font-size: .75rem;
+    color: #57606a;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1rem;
+    margin-top: 2rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  
+  <div class="hero">
+    <h1>🎓 DIO Explorer × IBM Bob</h1>
+    <p class="subtitle">Documentação completa do Projeto Final — Slash Commands, MCP Server, Testes e Insights</p>
+    <div class="badge-row">
+      <span class="badge">Python 3.11</span>
+      <span class="badge">TypeScript</span>
+      <span class="badge purple">MCP Server</span>
+      <span class="badge green">36/36 Testes ✓</span>
+      <span class="badge green">100% Coverage</span>
+      <span class="badge gray">32 Trilhas</span>
+    </div>
+  </div>
+
+  
+  <div class="toc">
+    <h2>Índice</h2>
+    <ol>
+      <li><a href="#visao-geral">Visão Geral do Projeto</a></li>
+      <li><a href="#arquitetura">Arquitetura e Estrutura de Arquivos</a></li>
+      <li><a href="#dados">Fonte de Dados — trilhas_dio.json</a></li>
+      <li><a href="#slash-commands">Slash Commands</a></li>
+      <li><a href="#prompts">Prompts Utilizados</a></li>
+      <li><a href="#python">Módulo Python — trilhas_utils.py</a></li>
+      <li><a href="#mcp">MCP Server — dio-explorer</a></li>
+      <li><a href="#testes">Testes Unitários</a></li>
+      <li><a href="#dicas">Dicas de Uso do Bob</a></li>
+      <li><a href="#insights">Insights para Futuros Profissionais</a></li>
+    </ol>
+  </div>
+
+  
+  <section id="visao-geral">
+    <h2>1. Visão Geral do Projeto</h2>
+    <p>O <strong>DIO Explorer</strong> é um projeto final desenvolvido com o assistente <strong>IBM Bob</strong> que demonstra, na prática, como usar IA como copiloto de desenvolvimento para construir uma aplicação completa com:</p>
+    <ul>
+      <li><strong>Slash commands</strong> personalizados que transformam prompts em ferramentas de produtividade</li>
+      <li><strong>Servidor MCP</strong> (Model Context Protocol) em TypeScript com 3 ferramentas expostas</li>
+      <li><strong>Módulo Python</strong> com regras de negócio puras e totalmente testáveis</li>
+      <li><strong>Suíte de testes</strong> com 36 casos e cobertura de 100%</li>
+      <li><strong>Catálogo de 32 trilhas</strong> de aprendizado simulando a plataforma DIO</li>
+    </ul>
+
+    <div class="stats">
+      <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Slash Commands</div></div>
+      <div class="stat-box"><div class="stat-num purple">3</div><div class="stat-label">Ferramentas MCP</div></div>
+      <div class="stat-box"><div class="stat-num green">36</div><div class="stat-label">Testes Unitários</div></div>
+      <div class="stat-box"><div class="stat-num green">100%</div><div class="stat-label">Code Coverage</div></div>
+      <div class="stat-box"><div class="stat-num">32</div><div class="stat-label">Trilhas no Catálogo</div></div>
+      <div class="stat-box"><div class="stat-num">2</div><div class="stat-label">Linguagens (Py+TS)</div></div>
+    </div>
+
+    <div class="callout">
+      <strong>💡 Propósito Educacional</strong>
+      Este projeto foi construído <em>com</em> o Bob, não apenas <em>usando</em> o Bob. Cada decisão de arquitetura, cada função, cada teste foi elaborado em diálogo com o assistente — o que demonstra o fluxo real de um desenvolvedor trabalhando com IA generativa.
+    </div>
+  </section>
+
+  
+  <section id="arquitetura">
+    <h2>2. Arquitetura e Estrutura de Arquivos</h2>
+    <div class="arch">projeto_final_dio_ibm_bob/
+│
+├── .bob/                          ← Configurações do IBM Bob
+│   ├── mcp.json                   ← Registro do MCP Server local
+│   └── commands/                  ← Slash commands (escopo do projeto)
+│       ├── README.md              ← Documentação dos comandos
+│       ├── trilha.md              → /trilha &lt;tecnologia&gt;
+│       ├── desafio.md             → /desafio &lt;tecnologia&gt; &lt;nivel&gt;
+│       └── certificado.md         → /certificado &lt;nome&gt; &lt;tecnologia&gt;
+│
+├── .bobignore                     ← Arquivos ignorados pelo Bob
+├── conftest.py                    ← Configuração pytest (sys.path)
+│
+└── dio_explorer/
+    ├── data/
+    │   └── trilhas_dio.json       ← Catálogo: 32 trilhas com schema completo
+    ├── docs/
+    │   └── test_results.txt       ← Relatório de execução dos testes
+    ├── src/
+    │   ├── __init__.py
+    │   ├── trilhas_utils.py       ← Módulo Python: regras de negócio
+    │   └── test_slash_commands.py ← Suíte: 36 testes unitários
+    └── mcp/
+        ├── src/
+        │   └── index.ts           ← Servidor MCP em TypeScript
+        ├── build/
+        │   └── index.js           ← Build compilado (Node.js)
+        ├── package.json
+        └── tsconfig.json</div>
+
+    <h3>Fluxo de Dados</h3>
+    <p>O projeto tem <strong>duas superfícies de exposição</strong> para a mesma lógica de negócio:</p>
+    <table>
+      <tr><th>Superfície</th><th>Tecnologia</th><th>Como Usar</th><th>Consumidor</th></tr>
+      <tr><td>Slash Commands</td><td>Markdown + Bob</td><td><code>/trilha Python</code> no chat</td><td>Usuário humano no Bob</td></tr>
+      <tr><td>MCP Server</td><td>TypeScript / Node.js</td><td>Ferramenta automática via protocolo MCP</td><td>Bob como agente (automático)</td></tr>
+    </table>
+  </section>
+
+  
+  <section id="dados">
+    <h2>3. Fonte de Dados — trilhas_dio.json</h2>
+    <p>O arquivo <code>dio_explorer/data/trilhas_dio.json</code> é o <strong>único ponto de verdade</strong> do projeto. Contém 32 trilhas com o seguinte schema por objeto:</p>
+    <pre><code>{
+  "id": 1,
+  "nome": "Fundamentos de Python para Iniciantes",
+  "tecnologia": "Python",
+  "nivel": "Básico",           // Básico | Intermediário | Avançado
+  "numero_de_modulos": 6,
+  "xp_total": 4200,
+  "badges_disponiveis": ["Python Rookie", "Code Starter", "Logic Builder"],
+  "promocoes": {               // null se não houver promoção
+    "desconto": "30%",
+    "validade": "2025-08-31",
+    "cupom": "PYTHON30"
+  },
+  "vitalicio": true,
+  "lives_ao_vivo": [
+    { "titulo": "Introdução ao Python", "data": "2025-07-10", "horario": "19:00" }
+  ]
+}</code></pre>
+    <div class="callout">
+      <strong>Design Decision</strong>
+      O campo <code>promocoes</code> pode ser <code>null</code> — uma escolha intencional para testar o caminho negativo (<em>TC-18: sem promoção exibe mensagem padrão</em>). Tanto o Python quanto o TypeScript tratam esse caso explicitamente.
+    </div>
+  </section>
+
+  
+  <section id="slash-commands">
+    <h2>4. Slash Commands</h2>
+    <p>Slash commands são arquivos <code>.md</code> em <code>.bob/commands/</code>. O nome do arquivo define o comando. Argumentos digitados após o comando são mapeados em <code>$1</code>, <code>$2</code>, etc.</p>
+
+    <div class="cmd-card">
+      <div class="cmd-header">
+        <span class="cmd-name">/trilha</span>
+        <span class="cmd-hint">&lt;tecnologia&gt;</span>
+      </div>
+      <div class="cmd-body">
+        <p>Busca uma trilha no catálogo (busca parcial, case-insensitive) e exibe o plano de estudos completo em Markdown com módulos, badges, lives e promoção.</p>
+        <h4>Exemplos</h4>
+        <pre><code>/trilha Python
+/trilha java
+/trilha react
+/trilha watsonx
+/trilha docker</code></pre>
+        <h4>Comportamento de Erro</h4>
+        <p>Se a tecnologia não for encontrada, o Bob lista todas as tecnologias disponíveis no catálogo de forma amigável.</p>
+      </div>
+    </div>
+
+    <div class="cmd-card">
+      <div class="cmd-header">
+        <span class="cmd-name">/desafio</span>
+        <span class="cmd-hint">[tecnologia] [nivel: Básico|Intermediário|Avançado]</span>
+      </div>
+      <div class="cmd-body">
+        <p>Gera um desafio de código aleatório. Se omitir os argumentos, o Bob sorteia tecnologia e nível do catálogo automaticamente.</p>
+        <h4>Exemplos</h4>
+        <pre><code>/desafio Python Básico
+/desafio Java Intermediário
+/desafio React Avançado
+/desafio                    ← sorteia automaticamente</code></pre>
+        <h4>XP por Nível</h4>
+        <table>
+          <tr><th>Nível</th><th>XP Mínimo</th><th>XP Máximo</th></tr>
+          <tr><td>Básico</td><td>200 XP</td><td>500 XP</td></tr>
+          <tr><td>Intermediário</td><td>500 XP</td><td>1.000 XP</td></tr>
+          <tr><td>Avançado</td><td>1.000 XP</td><td>2.000 XP</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="cmd-card">
+      <div class="cmd-header">
+        <span class="cmd-name">/certificado</span>
+        <span class="cmd-hint">&lt;seu-nome&gt; &lt;tecnologia&gt;</span>
+      </div>
+      <div class="cmd-body">
+        <p>Gera um certificado fictício de conclusão com dados reais da trilha, data atual e ID único no formato <code>DIO-NNN-AAAA-NNNNNN</code>.</p>
+        <h4>Exemplos</h4>
+        <pre><code>/certificado Fabricio Eirim Castro Python
+/certificado Ana Paula Java
+/certificado Carlos React
+/certificado Maria Souza watsonx</code></pre>
+        <div class="callout warning">
+          <strong>⚠️ Certificado Fictício</strong>
+          Gerado exclusivamente para fins educacionais e demonstração no contexto deste projeto.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="prompts">
+    <h2>5. Prompts Utilizados</h2>
+    <p>A seguir estão os prompts exatos que geraram as diferentes partes do projeto. Estes prompts são a documentação mais valiosa para quem quer aprender a trabalhar com IA.</p>
+
+    <h3>Criação do Catálogo de Dados</h3>
+    <div class="prompt-block">
+      <div class="prompt-header">Prompt — trilhas_dio.json</div>
+      <div class="prompt-body">Crie um arquivo JSON chamado trilhas_dio.json com 32 trilhas de aprendizado simulando a plataforma DIO. Cada trilha deve ter: id, nome, tecnologia, nivel (Básico/Intermediário/Avançado), numero_de_modulos, xp_total, badges_disponiveis (array), promocoes (objeto com desconto/validade/cupom ou null), vitalicio (boolean) e lives_ao_vivo (array com titulo/data/horario). Inclua tecnologias variadas como Python, Java, React, AWS, watsonx, Docker, Machine Learning, etc.</div>
+    </div>
+
+    <h3>Slash Command /trilha</h3>
+    <div class="prompt-block">
+      <div class="prompt-header">Prompt — .bob/commands/trilha.md</div>
+      <div class="prompt-body">Crie um slash command /trilha que leia o arquivo trilhas_dio.json, faça busca parcial case-insensitive pelo campo tecnologia com o argumento $1, e retorne o plano de estudos formatado em Markdown com cabeçalho, módulos gerados contextualmente, badges, lives ao vivo e promoção. Se não encontrar, liste as tecnologias disponíveis.</div>
+    </div>
+
+    <h3>Slash Command /desafio</h3>
+    <div class="prompt-block">
+      <div class="prompt-header">Prompt — .bob/commands/desafio.md</div>
+      <div class="prompt-body">Crie um slash command /desafio com argumentos opcionais $1 (tecnologia) e $2 (nivel). Se nenhum argumento for passado, sortear do catálogo. O desafio deve ter título criativo, descrição clara, requisitos, exemplo de entrada/saída, critérios de avaliação, tempo sugerido e XP proporcional ao nível (Básico: 200-500, Intermediário: 500-1000, Avançado: 1000-2000).</div>
+    </div>
+
+    <h3>Slash Command /certificado</h3>
+    <div class="prompt-block">
+      <div class="prompt-header">Prompt — .bob/commands/certificado.md</div>
+      <div class="prompt-body">Crie um slash command /certificado &lt;nome&gt; &lt;tecnologia&gt; que gere um certificado fictício em Markdown com nome do usuário ($1), dados reais da trilha encontrada por $2, data atual do sistema formatada DD/MM/AAAA, e ID único no formato DIO-{id}-{ano}-{6 dígitos aleatórios}. Incluir todas as badges da trilha e aviso de que é fictício.</div>
+    </div>
+
+    <h3>Módulo Python + Testes</h3>
+    <div class="prompt-block">
+      <div class="prompt-header">Prompt — trilhas_utils.py + test_slash_commands.py</div>
+      <div class="prompt-body">Crie o módulo Python trilhas_utils.py com funções puras (sem I/O de rede) implementando as regras de negócio dos slash commands: carregar_trilhas(), buscar_trilha(), formatar_plano_estudos(), gerar_desafio() e gerar_certificado(). Em seguida, crie uma suíte de testes pytest com cobertura &gt;= 70%, testando todos os caminhos: busca exata, case-insensitive, parcial, string vazia, nível inválido, formato do ID do certificado, e um fluxo integrado completo (TC-36).</div>
+    </div>
+
+    <h3>MCP Server</h3>
+    <div class="prompt-block">
+      <div class="prompt-header">Prompt — dio_explorer/mcp/src/index.ts</div>
+      <div class="prompt-body">Crie um servidor MCP em TypeScript usando @modelcontextprotocol/sdk e zod que exponha as mesmas três ferramentas dos slash commands: trilha_buscar, desafio_gerar e certificado_gerar. Use transporte stdio, leia os dados de trilhas_dio.json, valide os inputs com zod e retorne conteúdo Markdown formatado. Compile com tsc e registre em .bob/mcp.json.</div>
+    </div>
+
+    <h3>Documentação dos Slash Commands</h3>
+    <div class="prompt-block">
+      <div class="prompt-header">Prompt — .bob/commands/README.md</div>
+      <div class="prompt-body">Crie uma documentação completa em Markdown dos três slash commands em .bob/commands/README.md explicando como funcionam os slash commands, sintaxe de cada um, exemplos de uso, o que é retornado, tabelas de parâmetros, lista completa das 32 trilhas disponíveis e estrutura de arquivos do projeto.</div>
+    </div>
+  </section>
+
+  
+  <section id="python">
+    <h2>6. Módulo Python — trilhas_utils.py</h2>
+    <p>O módulo <code>dio_explorer/src/trilhas_utils.py</code> encapsula toda a lógica de negócio em <strong>funções puras</strong> — sem dependências externas, sem I/O de rede, totalmente testáveis.</p>
+
+    <table>
+      <tr><th>Função</th><th>Responsabilidade</th><th>Retorno</th></tr>
+      <tr><td><code>carregar_trilhas(caminho)</code></td><td>Lê e parseia o JSON</td><td><code>list[dict]</code></td></tr>
+      <tr><td><code>buscar_trilha(tecnologia, trilhas)</code></td><td>Busca parcial case-insensitive</td><td><code>dict | None</code></td></tr>
+      <tr><td><code>formatar_plano_estudos(trilha)</code></td><td>Gera Markdown do plano</td><td><code>str</code></td></tr>
+      <tr><td><code>gerar_desafio(tecnologia, nivel)</code></td><td>Sorteia desafio, gera XP</td><td><code>dict</code></td></tr>
+      <tr><td><code>gerar_certificado(nome, trilha, hoje)</code></td><td>Gera certificado Markdown</td><td><code>str</code></td></tr>
+    </table>
+
+    <div class="callout insight">
+      <strong>Padrão de Design: Injeção de Dependência para Testabilidade</strong>
+      A função <code>gerar_certificado</code> aceita o parâmetro opcional <code>hoje: Optional[date] = None</code>. Isso permite que os testes passem uma data fixa (<code>date(2025, 7, 10)</code>) garantindo resultados determinísticos, enquanto em produção a data atual é usada automaticamente. Esse padrão é chamado de <em>dependency injection</em> e é fundamental em código testável.
+    </div>
+  </section>
+
+  
+  <section id="mcp">
+    <h2>7. MCP Server — dio-explorer</h2>
+    <p>O <strong>Model Context Protocol (MCP)</strong> permite que o Bob use ferramentas externas como se fossem capacidades nativas. O servidor <code>dio-explorer-mcp</code> é registrado no arquivo <code>.bob/mcp.json</code> e expõe 3 ferramentas via <strong>transporte stdio</strong>.</p>
+
+    <h3>Registro no Bob (.bob/mcp.json)</h3>
+    <pre><code>{
+  "mcpServers": {
+    "dio-explorer": {
+      "command": "node",
+      "args": ["...caminho.../dio_explorer/mcp/build/index.js"]
+    }
+  }
+}</code></pre>
+
+    <h3>Ferramentas Expostas</h3>
+    <table>
+      <tr><th>Nome MCP</th><th>Descrição</th><th>Parâmetros Zod</th></tr>
+      <tr><td><code>trilha_buscar</code></td><td>Busca trilha e retorna plano em Markdown</td><td><code>tecnologia: z.string()</code></td></tr>
+      <tr><td><code>desafio_gerar</code></td><td>Gera desafio de código aleatório</td><td><code>tecnologia: z.string(), nivel: z.enum([...])</code></td></tr>
+      <tr><td><code>certificado_gerar</code></td><td>Gera certificado fictício</td><td><code>nome: z.string(), tecnologia: z.string()</code></td></tr>
+    </table>
+
+    <h3>Build e Execução</h3>
+    <pre><code># Instalar dependências
+cd dio_explorer/mcp
+npm install
+
+# Compilar TypeScript
+npm run build    # gera build/index.js
+
+# Testar diretamente (opcional)
+npm start</code></pre>
+
+    <div class="callout">
+      <strong>Slash Command vs MCP Tool</strong>
+      Os slash commands são prompts de linguagem natural executados pelo Bob. As ferramentas MCP são código executável chamado programaticamente. A grande vantagem do MCP é que o Bob pode encadear ferramentas automaticamente em tarefas complexas sem que o usuário precise digitar nada.
+    </div>
+  </section>
+
+  
+  <section id="testes">
+    <h2>8. Testes Unitários</h2>
+    <p>A suíte em <code>dio_explorer/src/test_slash_commands.py</code> foi gerada junto com o código, garantindo que cada regra de negócio fosse validada antes do projeto ser considerado concluído.</p>
+
+    <div class="callout success">
+      <strong>✅ Resultado Final: 36/36 Testes Aprovados | 100% de Cobertura</strong>
+      A meta era ≥ 70%. O projeto atingiu 100% (48 de 48 linhas cobertas).
+    </div>
+
+    <table>
+      <tr><th>Suite</th><th>Testes</th><th>O que valida</th></tr>
+      <tr><td><code>TestCarregarTrilhas</code></td><td>3</td><td>Leitura do JSON, quantidade de trilhas (32)</td></tr>
+      <tr><td><code>TestBuscarTrilha</code></td><td>8</td><td>Busca exata, case-insensitive, parcial, vazia, None</td></tr>
+      <tr><td><code>TestFormatarPlanoEstudos</code></td><td>7</td><td>Campos no Markdown, badges, promoção presente/ausente</td></tr>
+      <tr><td><code>TestGerarDesafio</code></td><td>9</td><td>Estrutura do dict, faixa de XP por nível, ValueError</td></tr>
+      <tr><td><code>TestGerarCertificado</code></td><td>9</td><td>Nome, trilha, data, regex do ID, badges, fluxo integrado</td></tr>
+    </table>
+
+    <h3>Como Executar</h3>
+    <pre><code># Testes simples
+python -m pytest dio_explorer/src/test_slash_commands.py -v
+
+# Com relatório de cobertura
+python -m pytest dio_explorer/src/test_slash_commands.py -v --tb=short \
+  --cov=dio_explorer.src.trilhas_utils --cov-report=term-missing</code></pre>
+
+    <h3>Caso de Teste Integrado (TC-36)</h3>
+    <p>O TC-36 simula o fluxo completo de um usuário chamando os três comandos em sequência:</p>
+    <pre><code># 1. Carregar catálogo → 32 trilhas
+trilhas = carregar_trilhas(caminho)
+
+# 2. /trilha java → encontra "Desenvolvedor Java Full Stack"
+trilha = buscar_trilha("java", trilhas)
+
+# 3. Gerar plano de estudos
+plano = formatar_plano_estudos(trilha)   # contém "Java"
+
+# 4. /desafio Java Intermediário → XP &gt;= 500
+desafio = gerar_desafio(trilha["tecnologia"], trilha["nivel"])
+
+# 5. /certificado → ID: DIO-002-2025-XXXXXX
+cert = gerar_certificado("Fabricio Eirim Castro", trilha, date(2025, 7, 10))</code></pre>
+  </section>
+
+  
+  <section id="dicas">
+    <h2>9. Dicas de Uso do IBM Bob</h2>
+
+    <h3>Slash Commands</h3>
+    <div class="insights-grid">
+      <div class="insight-card">
+        <div class="icon">💬</div>
+        <h4>Seja específico</h4>
+        <p>Use <code>/trilha watsonx</code> em vez de buscar "IA IBM" — o campo tecnologia é o que é buscado no JSON.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">🔍</div>
+        <h4>Busca parcial funciona</h4>
+        <p><code>/trilha java</code>, <code>/trilha JAVA</code> e <code>/trilha Ja</code> retornam o mesmo resultado graças à busca case-insensitive.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">🎲</div>
+        <h4>Surpresa no /desafio</h4>
+        <p>Digite apenas <code>/desafio</code> sem argumentos para o Bob sortear tecnologia e nível do catálogo — ótimo para praticar fora da zona de conforto.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">🏆</div>
+        <h4>Nomes compostos no /certificado</h4>
+        <p><code>/certificado Fabricio Eirim Castro Java</code> — o último token é sempre a tecnologia; o restante é o nome.</p>
+      </div>
+    </div>
+
+    <h3>Trabalhando com o Bob em Geral</h3>
+    <div class="insights-grid">
+      <div class="insight-card">
+        <div class="icon">📋</div>
+        <h4>Peça listas de TODO</h4>
+        <p>Inicie projetos pedindo "crie uma lista de tarefas para construir X". O Bob mantém a lista atualizada conforme avança.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">🔄</div>
+        <h4>Itere em cima do código existente</h4>
+        <p>Diga "agora adicione testes" ou "refatore para funções puras" — o Bob lê o arquivo atual antes de editar.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">🧪</div>
+        <h4>Peça testes junto com o código</h4>
+        <p>Sempre solicite "crie também os testes unitários" no mesmo prompt que pede a implementação — isso força cobertura desde o início.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">📁</div>
+        <h4>Use o .bobignore</h4>
+        <p>Coloque <code>node_modules/</code>, <code>.env</code> e pastas de cache no <code>.bobignore</code> para manter o contexto relevante e rápido.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">🛠️</div>
+        <h4>Modo Plan antes de codar</h4>
+        <p>Para projetos complexos, use o modo <strong>Plan</strong> primeiro para definir a arquitetura antes de entrar no modo <strong>Agent</strong> para implementar.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">🔌</div>
+        <h4>MCP amplifica o Bob</h4>
+        <p>Um servidor MCP transforma o Bob em um agente que pode consultar dados externos, executar código e encadear operações automaticamente.</p>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="insights">
+    <h2>10. Insights para Futuros Profissionais</h2>
+
+    <h3>Sobre IA como Copiloto de Desenvolvimento</h3>
+    <div class="callout insight">
+      <strong>O Bob não substitui o desenvolvedor — ele amplifica</strong>
+      Todo o código deste projeto passou por revisão, refinamento e validação humana. A IA propõe; o desenvolvedor decide. O valor está em acelerar iterações, não em eliminar o julgamento humano.
+    </div>
+
+    <div class="insights-grid">
+      <div class="insight-card">
+        <div class="icon">🏗️</div>
+        <h4>Arquitetura separada de interface</h4>
+        <p>A lógica de negócio (trilhas_utils.py) foi separada da interface (slash commands e MCP). Isso permitiu testar 100% do código sem precisar simular o Bob.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">🌐</div>
+        <h4>MCP é o futuro das ferramentas de IA</h4>
+        <p>O Model Context Protocol padroniza como LLMs interagem com sistemas externos. Aprender a construir servidores MCP é uma habilidade valiosa em 2025.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">📝</div>
+        <h4>Prompts são código</h4>
+        <p>Os arquivos .md dos slash commands são literalmente o "código-fonte" dos comandos. Versioná-los no Git é tão importante quanto versionar Python ou TypeScript.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">🧩</div>
+        <h4>Funções puras = testabilidade</h4>
+        <p>Todas as 5 funções de negócio são puras: mesma entrada, mesma saída, sem efeitos colaterais ocultos. Isso é o que permitiu 100% de cobertura com 36 testes simples.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">🔗</div>
+        <h4>Bilinguismo (Python + TypeScript)</h4>
+        <p>O mesmo algoritmo foi implementado em Python (para testes) e TypeScript (para o MCP). Comparar as duas implementações é um excelente exercício de aprendizado.</p>
+      </div>
+      <div class="insight-card">
+        <div class="icon">📊</div>
+        <h4>JSON como contrato de dados</h4>
+        <p>O trilhas_dio.json serviu tanto para Python quanto para TypeScript sem adaptações. Um schema bem definido é a cola entre linguagens e sistemas diferentes.</p>
+      </div>
+    </div>
+
+    <h3>Lições do Processo de Desenvolvimento</h3>
+    <ol>
+      <li><strong>Comece pelo dado:</strong> definir o schema do JSON antes de escrever qualquer código evitou retrabalho em todas as camadas.</li>
+      <li><strong>Slash commands primeiro:</strong> prototipar a interação como prompt simples antes de criar o MCP permite validar a ideia com custo zero.</li>
+      <li><strong>Testes como especificação:</strong> os testes (especialmente o TC-36 integrado) documentam <em>exatamente</em> o que o sistema deve fazer — melhor que qualquer comentário.</li>
+      <li><strong>Injeção de dependência para datas:</strong> sempre que uma função depende do "tempo atual", parametrize-a — isso torna os testes determinísticos sem mocks complexos.</li>
+      <li><strong>MCP na última etapa:</strong> a camada MCP foi a última a ser construída, quando a lógica já estava sólida e testada. Nunca construa a integração antes da lógica.</li>
+    </ol>
+
+    <h3>Próximos Passos Sugeridos</h3>
+    <table>
+      <tr><th>Extensão</th><th>Tecnologia Sugerida</th><th>Dificuldade</th></tr>
+      <tr><td>Persistência do progresso do aluno</td><td>Appwrite (já configurado no projeto!)</td><td>Intermediário</td></tr>
+      <tr><td>Adicionar comando /progresso</td><td>Slash command + MCP tool</td><td>Básico</td></tr>
+      <tr><td>Geração de imagem do certificado</td><td>HTML Canvas / Puppeteer</td><td>Avançado</td></tr>
+      <tr><td>API REST pública</td><td>FastAPI (Python) ou Hono (TS)</td><td>Intermediário</td></tr>
+      <tr><td>Integração com IBM watsonx</td><td>watsonx.ai SDK</td><td>Avançado</td></tr>
+      <tr><td>CI/CD com testes automáticos</td><td>GitHub Actions</td><td>Básico</td></tr>
+    </table>
+  </section>
+
+  <hr />
+
+  <footer>
+    <p>Projeto Final DIO × IBM Bob  |  Desenvolvido com IBM Bob (Agent Mode)  |  Linguagens: Python 3.11 + TypeScript 5.5</p>
+    <p style="margin-top:.3rem">Made with IBM Bob</p>
+  </footer>
+
+</div>
+</body>
+</html>

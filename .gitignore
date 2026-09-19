@@ -1,0 +1,25 @@
+﻿# Dependências Node
+node_modules/
+
+# Cobertura de testes
+.coverage
+htmlcov/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Variáveis de ambiente
+.env
+.env.*
+
+# Arquivos temporários
+*.tmp
+*.log
+
+# Editor
+.vscode/
+.idea/
+*.swp
